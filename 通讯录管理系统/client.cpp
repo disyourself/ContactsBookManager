@@ -38,9 +38,11 @@ void showMenu() {
 	cout << "*****************************" << endl;
 }
 
+//1
 void addPerson(_contactBooks* contactBooks) {
 	if (contactBooks->size == MAX) {
 		cout << "通讯录已满" << endl;
+		system("pause");
 		return;
 	}
 
@@ -98,16 +100,18 @@ int isExist(_contactBooks* contactBooks, string name) {
 
 //显示单个联系人信息
 void showPerson(_contactBooks *contactBooks,int ret) {
-	cout << "姓名： " << contactBooks->personArray[ret].name << "\t";
-	cout << "性别： " << (contactBooks->personArray[ret].sex == 1 ? "男" : "女") << "\t";
-	cout << "年龄： " << contactBooks->personArray[ret].age << "\t";
-	cout << "电话： " << contactBooks->personArray[ret].phoneNumber << "\t";
-	cout << "住址： " << contactBooks->personArray[ret].address << endl;
+	if (contactBooks->size != 0) {
+		cout << "姓名： " << contactBooks->personArray[ret].name << "\t";
+		cout << "性别： " << (contactBooks->personArray[ret].sex == 1 ? "男" : "女") << "\t";
+		cout << "年龄： " << contactBooks->personArray[ret].age << "\t";
+		cout << "电话： " << contactBooks->personArray[ret].phoneNumber << "\t";
+		cout << "住址： " << contactBooks->personArray[ret].address << endl;
+	}
 }
 
-
+//2
 void showContactBooks(_contactBooks *contactBooks) {
-	if (contactBooks->personArray == 0) {
+	if (contactBooks->size == 0) {
 		cout << "当前记录为空\n";
 	}
 	for (int i = 0; i < contactBooks->size; i++) {
@@ -120,6 +124,8 @@ void showContactBooks(_contactBooks *contactBooks) {
 	system("pause");
 	system("cls");
 }
+
+//3
 void deletePerson(_contactBooks* contactBooks) {
 	cout << "请输入你要删除的联系人\n";
 	string name;
@@ -140,6 +146,7 @@ void deletePerson(_contactBooks* contactBooks) {
 	system("cls");
 }
 
+//4
 void findPerson(_contactBooks* contactBooks) {
 	cout << "请输入您要查找的联系人\n";
 	string name;
@@ -148,17 +155,22 @@ void findPerson(_contactBooks* contactBooks) {
 	int ret = isExist(contactBooks, name);
 	if (ret == -1) {
 		cout << "未找到联系人\n";
-	}	
-	cout << "姓名： " << contactBooks->personArray[ret].name << "\t";
-	cout << "性别： " << (contactBooks->personArray[ret].sex == 1 ? "男" : "女") << "\t";
-	cout << "年龄： " << contactBooks->personArray[ret].age << "\t";
-	cout << "电话： " << contactBooks->personArray[ret].phoneNumber << "\t";
-	cout << "住址： " << contactBooks->personArray[ret].address << endl;
+		system("pause");
+		return;
+	}
+	else {
+		cout << "姓名： " << contactBooks->personArray[ret].name << "\t";
+		cout << "性别： " << (contactBooks->personArray[ret].sex == 1 ? "男" : "女") << "\t";
+		cout << "年龄： " << contactBooks->personArray[ret].age << "\t";
+		cout << "电话： " << contactBooks->personArray[ret].phoneNumber << "\t";
+		cout << "住址： " << contactBooks->personArray[ret].address << endl;
+	}
 
 	system("pause");
 	system("cls");
 }
 
+//5
 void modifyPerson(_contactBooks *contactBooks) {
 	cout << "请输入要修改的联系人\n";
 	string name;
@@ -167,6 +179,8 @@ void modifyPerson(_contactBooks *contactBooks) {
 	int number=0;
 	if (ret == -1) {
 		cout << "未找到指定联系人\n";
+		system("pause");
+		return;
 	}
 	while (1) {
 		showPerson(contactBooks, ret);
@@ -185,13 +199,12 @@ void modifyPerson(_contactBooks *contactBooks) {
 			contactBooks->personArray[ret].name = name;
 			break; }
 		case 2: {
-			cout << "请输入修改后的性别：1男、2女\n";
+			cout << "请输入修改后的性别：\n1---男、2----女\n";
 			int sex;
 			cin >> sex;
 			if (sex != 1 && sex != 2) {
 				cout << "输入错误（1、男 2、女）\n";
 				system("pause");
-				system("cls");
 				return;
 			}
 			contactBooks->personArray[ret].sex = sex; 
@@ -218,15 +231,37 @@ void modifyPerson(_contactBooks *contactBooks) {
 			return;
 			break; }
 		}
+
 		cout << "修改成功\n";
-		return;
+		break;
 	}
 	system("pause");
 	system("cls");
 }
 
+//6
+void rmAllContacts(_contactBooks *contactBooks) {
+	cout << "！是否清空所有联系人!\n";
+	cout << "1--是  2--否\n";
+	int i;
+	cin >> i;
+	if (i !=1 && i != 2) {
+		cout << "指令错误" << endl;
+		system("pause");
+		return;
+	}
+	else if (i == 1) {
+		contactBooks->size = 0;
+		cout << "通讯录已清空\n";
+	}
+	else{
+		cout << "取消操作" << endl;
+	}
+	system("pause");
+	system("cls");
+}
 
-
+//0
 void exitMenu() {
 	cout << "欢迎下次使用" << endl;
 	system("pause");
@@ -264,13 +299,14 @@ int main() {
 			break;
 		case 5:modifyPerson(&contactBooks);
 			break;
-		case 6:
+		case 6:rmAllContacts(&contactBooks);
 			break;
 		case 0:
 			exitMenu();
 			return 0;
 			break;
 		}
+		system("cls");
 	}
 	
 
